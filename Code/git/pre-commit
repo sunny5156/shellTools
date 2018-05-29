@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 BasePath=$(cd `dirname $0`; pwd)
 BasePath=`dirname ${BasePath}`
 BasePath=`dirname ${BasePath}`
@@ -8,28 +8,28 @@ if [[ "$STAGED_FILES" = "" ]]; then
   exit 0
 fi
 PASS=true
-echo "Validating Javascript:"
+echo -e "\n\033[32mValidating Javascript:\033[0m\n"
 # Check for eslint
 which ${BasePath}/Code/Frontend/node_modules/.bin/eslint &> /dev/null
 if [[ "$?" == 1 ]]; then
-  echo -e "Please install ESlint"
+  echo -e "\t\033[41mPlease install ESlint\033[0m"
   exit 1
 fi
 for FILE in $STAGED_FILES
 do
   ${BasePath}/Code/Frontend/node_modules/.bin/eslint "$FILE" -c ${BasePath}/Code/Frontend/.eslintrc.js
   if [[ "$?" == 0 ]]; then
-    echo "ESLint Passed: $FILE"
+	echo -e "\t\033[32mESLint Passed: $FILE\033[0m"
   else
-    echo "ESLint Failed: $FILE"
+	echo -e "\t\033[41mESLint Failed: $FILE\033[0m"
     PASS=false
   fi
 done
-echo "Javascript validation completed!"
+echo -e "\n\033[32mJavascript validation completed!\033[0m\n"
 if ! $PASS; then
-  echo "COMMIT FAILED: Your commit contains files that should pass ESLint but do not. Please fix the ESLint errors and try again."
+  echo -e "\033[41mCOMMIT FAILED:\033[0m \033[31;47mYour commit contains files that should pass ESLint but do not. Please fix the ESLint errors and try again.\033[0m\n"
   exit 1
 else
-  echo "COMMIT SUCCEEDED"
+  echo -e "\033[42mCOMMIT SUCCEEDED\033[0m\n"
 fi
 exit $?
