@@ -23,7 +23,7 @@ VPN_IP=`curl ipv4.icanhazip.com`
 VPN_USER="admin"
 VPN_PASS="admin"
 
-VPN_LOCAL="192.168.0.188"
+VPN_LOCAL="192.168.0.1"
 VPN_REMOTE="192.168.0.188-200"
 
 
@@ -52,10 +52,15 @@ enabled=1
 gpgcheck=0
 EOF
     fi
-    for Package in wget make openssl gcc-c++ ppp pptpd iptables iptables-services
+   
+    ##for Package in wget make openssl gcc-c++ ppp pptpd iptables iptables-services
+    for Package in wget make openssl gcc-c++ ppp  iptables iptables-services
     do
         yum -y install $Package
     done
+    wget  http://rpmfind.net/linux/epel/7/x86_64/Packages/p/pptpd-1.4.0-2.el7.x86_64.rpm
+    yum -y install pptpd-1.4.0-2.el7.x86_64.rpm && rm -rf pptpd-1.4.0-2.el7.x86_64.rpm
+    
     echo 'net.ipv4.ip_forward = 1' >> /etc/sysctl.conf
 elif [ -f /etc/redhat-release -a -n "`grep ' 6\.' /etc/redhat-release`" ];then
     #CentOS_REL=6
@@ -81,11 +86,11 @@ sysctl -p /etc/sysctl.conf
 
 if [ -z "`grep '^ms-dns' /etc/ppp/options.pptpd`" ];then
      cat >> /etc/ppp/options.pptpd << EOF
-ms-dns 223.5.5.5 # Aliyun DNS Primary
-ms-dns 114.114.114.114 # 114 DNS Primary
 ms-dns 8.8.8.8 # Google DNS Primary
-ms-dns 209.244.0.3 # Level3 Primary
-ms-dns 208.67.222.222 # OpenDNS Primary
+ms-dns 114.114.114.114 # 114 DNS Primary
+#ms-dns 223.5.5.5 # Aliyun DNS Primary
+#ms-dns 209.244.0.3 # Level3 Primary
+#ms-dns 208.67.222.222 # OpenDNS Primary
 EOF
 fi
 
