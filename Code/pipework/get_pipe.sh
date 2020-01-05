@@ -9,11 +9,11 @@ fi
 
 for i in `docker ps -aq |awk '{print $1}'`
 do
-   docker exec -i $i bash -c "ip a" | grep 190 &> /dev/null
+   docker exec -i $i sh -c "ip a" | grep 190 &> /dev/null
    RETVAR=$?
    if [ $RETVAR -eq 0 ];then
      name=`docker ps -a | grep $i | awk '{print $NF}'`
-     ip=`docker exec -i $i bash -c "ip a" |grep 190 |awk '{print $2}' |awk -F"/" '{print $1}'`
+     ip=`docker exec -i $i sh -c "ip a" |grep 190 |awk '{print $2}' |awk -F"/" '{print $1}'`
   
 #     echo $name
 #     echo $ip
