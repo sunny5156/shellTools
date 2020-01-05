@@ -3,8 +3,8 @@
 dir=/data/shell
 
 
-if [[ -f $dir/pipe.txt ]];then
-   cat /dev/null > $dir/pipe.txt   
+if [[ -f $dir/pipe ]];then
+   cat /dev/null > $dir/pipe   
 fi
 
 for i in `docker ps -aq |awk '{print $1}'`
@@ -17,7 +17,7 @@ do
   
 #     echo $name
 #     echo $ip
-     echo $name $ip >> $dir/pipe.txt
+     echo $name $ip >> $dir/pipe
    else
      noip_name=`docker ps -a | grep $i | awk '{print $NF}'`
      echo -e "\033[33m $noip_name \033[0m" is not running or no 190ip !
