@@ -1,0 +1,11 @@
+mysql:
+    host: 190.168.0.17
+    database: db_spider
+    user: wsadmin
+    password: xast890567??
+    command: 
+mongo:
+    host: 
+    port:
+    database:
+    collections:
